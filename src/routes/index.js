@@ -3,11 +3,13 @@ import { Switch, Route } from 'react-router-dom';
 
 import Dashboard from '../containers/Dashboard';
 import NotFound from '../containers/NotFound';
+import SignIn from '../containers/SignIn';
 import About from '../containers/About';
 
 const Routes = () => (
   <Switch>
     <Route exact path="/" component={ Dashboard } />
+    <Route exact path="/signin" component={ SignIn } />
     <Route exact path="/about" component={ About } />
     <Route component={ NotFound } />
   </Switch>
