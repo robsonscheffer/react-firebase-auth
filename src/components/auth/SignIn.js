@@ -53,10 +53,43 @@ const styles = theme => ({
 });
 
 class SignIn extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+    };
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleEmailChange(event) {
+    console.log('handleEmailChange', event.target.value);
+    this.setState({ email: event.target.value });
+  }
+
+  handlePasswordChange(event) {
+    console.log('handlePasswordChange', event.target.value);
+    this.setState({ password: event.target.value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { handleUserLogin } = this.props;
+    const { state } = this;
+    handleUserLogin({
+      email: state.email,
+      password: state.password,
+    });
+  }
+
   render() {
+    const { state } = this;
     const {
-      classes, authFacebook, authGoogle, authEmail,
+      classes, authFacebook, authGoogle, errorMessage,
     } = this.props;
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -66,7 +99,7 @@ class SignIn extends React.Component {
               <LockIcon />
             </Avatar>
             <Typography variant="subheading">Olá! Escolha uma opção para entrar</Typography>
-            <form className={ classes.form } onSubmit={ authEmail }>
+            <form className={ classes.form } onSubmit={ this.handleSubmit }>
               <Grid container spacing={ 16 }>
                 <Grid item xs={ 6 }>
                   <Button
@@ -105,7 +138,14 @@ class SignIn extends React.Component {
               <Grid item xs={ 12 }>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="email">Email / Usuário</InputLabel>
-                  <Input id="email" name="email" autoComplete="email" autoFocus />
+                  <Input
+                    id="email"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    value={ state.email }
+                    onChange={ this.handleEmailChange }
+                  />
                 </FormControl>
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="password">Senha</InputLabel>
@@ -114,6 +154,8 @@ class SignIn extends React.Component {
                     type="password"
                     id="password"
                     autoComplete="current-password"
+                    value={ state.password }
+                    onChange={ this.handlePasswordChange }
                   />
                 </FormControl>
                 <Button
@@ -133,6 +175,11 @@ class SignIn extends React.Component {
                   <Link to="/register">Cadastre-se</Link>
                 </Typography>
               </Grid>
+              <Grid item xs={ 12 }>
+                <Typography variant="body2" align="center">
+                  { errorMessage }
+                </Typography>
+              </Grid>
             </form>
           </Paper>
         </main>
@@ -144,14 +191,16 @@ class SignIn extends React.Component {
 SignIn.defaultProps = {
   authFacebook: () => {},
   authGoogle: () => {},
-  authEmail: () => {},
+  handleUserLogin: () => {},
+  errorMessage: '',
 };
 
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
   authFacebook: PropTypes.func,
   authGoogle: PropTypes.func,
-  authEmail: PropTypes.func,
+  handleUserLogin: PropTypes.func,
+  errorMessage: PropTypes.string,
 };
 
 export default withStyles(styles)(SignIn);

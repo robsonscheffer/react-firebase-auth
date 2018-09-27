@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import reduxThunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import primaryColor from '@material-ui/core/colors/blue';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Routes from './routes/index';
+import reducers from './reducers';
 
-import './styles/init.scss';
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 const ThemeUi = createMuiTheme({
   palette: {
@@ -17,13 +22,15 @@ const ThemeUi = createMuiTheme({
 
 
 const App = () => (
-  <MuiThemeProvider theme={ ThemeUi }>
-    <CssBaseline>
-      <Router>
-        <Routes />
-      </Router>
-    </CssBaseline>
-  </MuiThemeProvider>
+  <Provider store={ store }>
+    <MuiThemeProvider theme={ ThemeUi }>
+      <CssBaseline>
+        <Router>
+          <Routes />
+        </Router>
+      </CssBaseline>
+    </MuiThemeProvider>
+  </Provider>
 );
 
 

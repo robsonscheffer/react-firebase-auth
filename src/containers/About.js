@@ -5,10 +5,11 @@ import Layout from '../pages/Layout';
 
 class About extends React.Component {
   render() {
+    console.log("user prop", this.props.user);
     return (
       <Layout>
         <Typography variant="body2" gutterBottom>
-          About
+          About:
         </Typography>
       </Layout>
     );
