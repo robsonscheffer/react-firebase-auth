@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 
 import Dashboard from '../containers/Dashboard';
 import NotFound from '../containers/NotFound';
-import Auth from '../containers/Auth';
+import PrivateRoute from './privateRoute';
+import PublicRoute from './publicRoute';
 import About from '../containers/About';
+import Auth from '../containers/Auth';
+
 import { auth } from '../firebase';
 
 class Routes extends React.Component {
@@ -48,9 +51,9 @@ class Routes extends React.Component {
     // }
     return (
       <Switch>
-        <Route exact path="/" component={ Dashboard } />
-        <Route exact path="/auth" component={ Auth } />
-        <Route exact path="/about" component={ About } user={ state.user } />
+        <PrivateRoute exact path="/" component={ Dashboard } />
+        <PublicRoute exact path="/auth" component={ Auth } />
+        <PrivateRoute exact path="/about" component={ About } user={ state.user } />
         <Route component={ NotFound } />
       </Switch>
     );

@@ -1,8 +1,8 @@
-import { compose } from 'redux';
+import { combineReducers } from 'redux';
 
 import UserReducer from './user';
 
-const reducers = compose({
+const reducers = combineReducers({
   UserReducer,
 });
 

@@ -11,7 +11,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Routes from './routes/index';
 import reducers from './reducers';
-
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 const ThemeUi = createMuiTheme({
